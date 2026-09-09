@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: photo-share
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/photoshare}
+    username: ${DATABASE_USERNAME:photoshare}
+    password: ${DATABASE_PASSWORD:photoshare}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 100MB
+
+server:
+  port: ${PORT:8080}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-this-secret-in-production-min-32-chars!!}
+    expiration-ms: 86400000
+    gallery-expiration-ms: 3600000
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+  storage:
+    type: ${STORAGE_TYPE:local}
+    local:
+      path: ${LOCAL_STORAGE_PATH:./uploads}
+    s3:
+      bucket: ${S3_BUCKET:}
+      region: ${S3_REGION:us-east-1}
+      access-key: ${AWS_ACCESS_KEY_ID:}
+      secret-key: ${AWS_SECRET_ACCESS_KEY:}
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}

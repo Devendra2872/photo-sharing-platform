@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+app:
+  jwt:
+    secret: test-secret-key-minimum-32-characters-long
+  storage:
+    type: local
+    local:
+      path: ./target/test-uploads
+  frontend-url: http://localhost:5173
+  cors:
+    allowed-origins: http://localhost:5173
