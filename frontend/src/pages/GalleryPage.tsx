@@ -11,7 +11,7 @@ export default function GalleryPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
-  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
 
   const handleAccess = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ export default function GalleryPage() {
       e: React.MouseEvent,
       photoUrl: string,
       filename: string,
-      photoId: string
+      photoId: number
   ) => {
     e.stopPropagation(); // don't trigger the lightbox/card onClick
     setDownloadingId(photoId);
