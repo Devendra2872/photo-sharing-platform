@@ -40,7 +40,7 @@ export default function GalleryPage() {
     e.stopPropagation(); // don't trigger the lightbox/card onClick
     setDownloadingId(photoId);
     try {
-      const response = await fetch(photoUrl);
+      const response = await fetch(photoUrl, { cache: 'no-store' });
       if (!response.ok) throw new Error('Download failed');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
