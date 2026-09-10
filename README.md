@@ -228,6 +228,18 @@ docker compose -f docker-compose.prod.yml up -d --build
 6. `docker compose -f docker-compose.prod.yml up -d --build`
 7. Lock RDS's security group to accept traffic only from EC2's security group
 
+## CI/CD
+
+Deployment is automated with GitHub Actions (`.github/workflows/deploy.yml`). On every push to `main`, the workflow:
+1. Connects to the EC2 instance over SSH using a private key stored as a GitHub Actions secret
+2. Runs `git pull origin main` to fetch the latest code
+3. Runs `docker compose -f docker-compose.prod.yml up -d --build` to rebuild and restart both containers
+4. Prunes unused Docker images to keep disk usage under control
+
+**Required GitHub secrets**: `EC2_HOST`, `EC2_USER`, `EC2_SSH_KEY`.
+
+**Known tradeoff**: GitHub Actions runners use dynamic, unpredictable IPs, so the EC2 security group's SSH rule allows `0.0.0.0/0` rather than a fixed IP range. Security relies on key-based authentication (no password auth enabled) rather than IP restriction.
+
 ## Known Limitations
 
 - Single EC2 instance — no load balancing or auto-scaling
@@ -238,7 +250,6 @@ docker compose -f docker-compose.prod.yml up -d --build
 - Gallery PIN is shown once at publish time — store it securely
 - No email notifications for gallery links
 - No gallery-level expiration (bonus feature, not implemented)
-- No CI/CD yet — deployment is currently manual (`git pull` + `docker compose up --build` on the server)
 
 ## Project Structure
 
@@ -272,5 +283,3 @@ Photo_Project/
 ---
 
 Built for the TrizenAI Full Stack Internship Challenge.
-
-<--version CI/CD pipeline test -->
